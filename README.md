@@ -1,7 +1,7 @@
 # Arduino Playground
 This is a series of experiments with Arduino.
 
-Schematics will be provided soon™.
+Schematics and videos coming soon™.
 
 
 ## Accelerometer (MPU6050)
