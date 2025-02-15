@@ -56,6 +56,20 @@ Um quadrado é exibido na tela OLED. O objeto pode ser movido pela tela usando o
 
 
 
+## Block Destroyer
+Same connections as the Joystick + OLED display.
+
+It's a simple block destroyer game; press the joystick button to shoot the blocks.
+
+## 3D Cube
+Same connections as the Joystick + OLED display.
+
+It's a 3D cube that responds to the joystick movement around the X and Y axes.
+
+
+
+
+
 
 
 
