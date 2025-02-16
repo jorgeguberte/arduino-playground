@@ -1,5 +1,5 @@
 # Arduino Playground
-This is a series of experiments with Arduino.
+This is a series of experiments with Arduino Uno.
 
 Schematics and videos coming soon™.
 
