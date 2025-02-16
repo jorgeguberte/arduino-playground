@@ -67,7 +67,10 @@ Same connections as the Joystick + OLED display.
 It's a 3D cube that responds to the joystick movement around the X and Y axes.
 
 
+## Tic Tac Toe - Single Player
+Same connections as the Joystick + OLED display.
 
+It's a Tic Tac Toe game that uses circles and squares; move the joystick to select the cell and press the joystick button to place your mark.
 
 
 
