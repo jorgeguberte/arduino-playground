@@ -37,6 +37,10 @@ int cursorCol = 1;
 // Flag for edge detection of joystick movement
 bool joystickMoved = false;
 
+// Button debounce variables
+unsigned long lastDebounceTime = 0;
+const int debounceDelay = 50;
+
 // Function Prototypes
 void showSplashScreen();
 void newGame();
@@ -64,8 +68,8 @@ void loop() {
   switch (currentState) {
     case STATE_SPLASH:
       // Wait for button press to start new game
-      if (digitalRead(SW) == LOW) {
-        delay(300); // Debounce delay
+      if (digitalRead(SW) == LOW && (millis() - lastDebounceTime) > debounceDelay) {
+        lastDebounceTime = millis();
         newGame();
         currentState = STATE_GAME;
       }
@@ -74,12 +78,12 @@ void loop() {
     case STATE_GAME:
       updateCursor();
       // Check if the button is pressed to place a move
-      if (digitalRead(SW) == LOW) {
+      if (digitalRead(SW) == LOW && (millis() - lastDebounceTime) > debounceDelay) {
+        lastDebounceTime = millis();
         if (board[cursorRow][cursorCol] == ' ') {
           board[cursorRow][cursorCol] = (moveCount % 2 == 0) ? 'C' : 'S';
           moveCount++;
           drawGame();
-          delay(300); // Debounce delay
 
           // Check win condition after move
           char result = checkWin();
@@ -103,7 +107,7 @@ void loop() {
 // Display a splash screen with title and instruction.
 void showSplashScreen() {
   display.clearDisplay();
-  display.setTextSize(2);
+  display.setTextSize(1);
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(10, 10);
   display.println("Tic Tac Toe");
@@ -132,9 +136,9 @@ void drawGame() {
 
   // Draw grid lines
   display.drawLine(43, 0, 43, SCREEN_HEIGHT, SSD1306_WHITE);
-  display.drawLine(85, 0, 85, SCREEN_HEIGHT, SSD1306_WHITE);
+  display.drawLine(86, 0, 86, SCREEN_HEIGHT, SSD1306_WHITE); // Vertical lines
   display.drawLine(0, 21, SCREEN_WIDTH, 21, SSD1306_WHITE);
-  display.drawLine(0, 43, SCREEN_WIDTH, 43, SSD1306_WHITE);
+  display.drawLine(0, 42, SCREEN_WIDTH, 42, SSD1306_WHITE);  // Horizontal lines
 
   // Draw moves on the board
   for (int row = 0; row < 3; row++) {
@@ -216,15 +220,15 @@ char checkWin() {
 // Display the game over screen with the result.
 void showGameOverScreen(char result) {
   display.clearDisplay();
-  display.setTextSize(2);
+  display.setTextSize(1);
   display.setTextColor(SSD1306_WHITE);
-  display.setCursor(10, 10);
+  display.setCursor(15, 10);
   if (result == 'T') {
     display.println("Tie Game!");
   } else if (result == 'C') {
-    display.println("Circle Wins!");
+    display.println("Circle Win!");
   } else if (result == 'S') {
-    display.println("Square Wins!");
+    display.println("Square Win!");
   }
   display.setTextSize(1);
   display.setCursor(10, 40);
